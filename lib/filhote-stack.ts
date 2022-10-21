@@ -8,8 +8,7 @@ import { join } from "path";
 
 export interface FilhoteStackProps extends NestedStackProps {
   vpc?: IVpc;
-  securityGroup?: Array<ISecurityGroup>;
-  subnet?: Array<ISubnet>;
+  securityGroup?: ISecurityGroup[];
   restApi: IRestApi;
 }
 
@@ -30,7 +29,9 @@ export class FilhoteStack extends NestedStack {
       },
       environment: {
         DB_CONNECTION: 'passa as strings de comunicação do DB aqui como variável de ambiente'
-      }
+      },
+      vpc: props.vpc,
+      securityGroups: props.securityGroup,
     });
 
     /* aqui criamos um validador do payload dessa forma podemos definir 

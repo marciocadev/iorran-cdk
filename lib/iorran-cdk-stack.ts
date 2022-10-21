@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { PrivateSubnet, SecurityGroup, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
+import { FilhoteStack } from './filhote-stack';
 
 export class IorranCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -21,10 +22,11 @@ export class IorranCdkStack extends cdk.Stack {
       'SecurityGroupImport', // id
       'identificador-do-security-group-existente', // securityGroupId
     );
-    const subnet1 = PrivateSubnet.fromPrivateSubnetAttributes(this, 'SubnetImport1', {
-      subnetId: 'identificador-da-subnet'
-    });
 
-
+    new FilhoteStack(this, 'FilhoteDoIorran', {
+      restApi: rest,
+      vpc: vpc,
+      securityGroup: [securityGroup],
+    })
   }
 }
